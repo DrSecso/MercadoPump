@@ -1,0 +1,92 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Registro - MercadoPump</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body class="d-flex justify-content-center align-items-center vh-100 bg-light">
+  <div class="card p-4 shadow" style="min-width: 320px; max-width: 400px; width: 100%;">
+    <h3 class="text-center mb-3">Registro de Usuario</h3>
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} mt-2" role="alert">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    <form method="post" novalidate>
+      {% csrf_token %}
+      {# Si usas Django UserCreationForm, se suelen llamar password1 y password2 #}
+      <div class="mb-3">
+        <label for="id_username" class="form-label">Usuario</label>
+        <input
+          type="text"
+          name="username"
+          class="form-control{% if form.username.errors %} is-invalid{% endif %}"
+          id="id_username"
+          value="{{ form.username.value|default_if_none:'' }}"
+          required
+        />
+        {% for err in form.username.errors %}
+          <div class="invalid-feedback">{{ err }}</div>
+        {% endfor %}
+      </div>
+
+      <div class="mb-3">
+        <label for="id_email" class="form-label">Email</label>
+        <input
+          type="email"
+          name="email"
+          class="form-control{% if form.email.errors %} is-invalid{% endif %}"
+          id="id_email"
+          value="{{ form.email.value|default_if_none:'' }}"
+          required
+        />
+        {% for err in form.email.errors %}
+          <div class="invalid-feedback">{{ err }}</div>
+        {% endfor %}
+      </div>
+
+      <div class="mb-3">
+        <label for="id_password1" class="form-label">Contraseña</label>
+        <input
+          type="password"
+          name="password1"
+          class="form-control{% if form.password1.errors %} is-invalid{% endif %}"
+          id="id_password1"
+          required
+        />
+        {% for err in form.password1.errors %}
+          <div class="invalid-feedback">{{ err }}</div>
+        {% endfor %}
+      </div>
+
+      <div class="mb-3">
+        <label for="id_password2" class="form-label">Confirmar Contraseña</label>
+        <input
+          type="password"
+          name="password2"
+          class="form-control{% if form.password2.errors %} is-invalid{% endif %}"
+          id="id_password2"
+          required
+        />
+        {% for err in form.password2.errors %}
+          <div class="invalid-feedback">{{ err }}</div>
+        {% endfor %}
+      </div>
+
+      <div class="d-grid gap-2">
+        <button type="submit" class="btn btn-primary">Registrarse</button>
+        <a href="{% url 'login' %}" class="btn btn-outline-secondary">¿Ya tienes cuenta? Iniciar sesión</a>
+        <a href="{% url 'index' %}" class="btn btn-link">Entrar como invitado</a>
+      </div>
+    </form>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
